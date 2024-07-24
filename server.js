@@ -1,11 +1,15 @@
 import express from "express";
 import path from "path";
+import { fileURLToPath } from "url";
 import logger from "./middleware/logger.js";
 import errorHandler from "./middleware/error.js";
 import notFound from "./middleware/notFound.js";
 import posts from "./routes/posts.js";
 const port = process.env.PORT || 8000;
 
+// Get the directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 
 // Body parser middleware
@@ -15,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 // logger middleware
 app.use(logger);
 
-// app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, "public")));
 
 //Routes
 app.use("/api/posts", posts);
